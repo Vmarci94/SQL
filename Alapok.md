@@ -84,5 +84,48 @@ SELECT name, address FROM customer; -- konkrét példa
 
 SELECT * FROM customer; --ez mindent oszlopot kijelől
 
-SELECT prodID, startdate, 1.27*stdprice FROM price; //használhatunk egyszerűbb aritmetikai kifejezéseket
+SELECT prodID, startdate, 1.27*stdprice FROM price; --használhatunk egyszerűbb aritmetikai kifejezéseket
+
+SELECT prodID, startdate, 1.27*stdprice AS pricewithtax FROM price; --adhatunk "oszlopszinonimát" is az `AS` kulcs szóval amelyre horme 
+
+SELECT DISTINCT name FROM customer; -- össszes különböző név
+
 ```
+
+## Szelekció
+Itt valójában a `WHERE` kulcs szó után megadott logikai kifejezésel szelektálhatunk az eredménytábla sorai köztt.
+Különböző oszloptípusok értékeire értelem szerűen különböző adatműveletek vannak.
+	* Számokhoz aritmetikai kifejezések és függvények
+	* Szöveghez SUBSTR(), INSTR(), UPPER(), LOWER(), stb ...
+	* Dátumoknál +, -, és egyébb konverziók
+	* Halmazokhoz pl: (10, 20, 30);
+Ezen műveletekkel képzet adatokból további logikai értékeket előállíthatunk
+	* relációkkal ...
+	* intervallumba tartozással 	`BETWEEN ... AND ... `
+	* elme-e vizsgálattal 	`IN <halmaz>`
+	* minta összevetéssel 	`LIKE <mint>`
+```sql
+-- példa: 2000$-nál magasabb áfás árak növekvő sorrendben
+SELECT prodID, startdate, 1.27*stdprice AS pricewithtax
+FROM price
+WHERE 1.27*stdprice > 2000
+ORDER BY pricewithtax;
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
