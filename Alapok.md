@@ -95,15 +95,15 @@ SELECT DISTINCT name FROM customer; -- össszes különböző név
 ## Szelekció
 Itt valójában a `WHERE` kulcs szó után megadott logikai kifejezésel szelektálhatunk az eredménytábla sorai köztt.
 Különböző oszloptípusok értékeire értelem szerűen különböző adatműveletek vannak.
-	* Számokhoz aritmetikai kifejezések és függvények
-	* Szöveghez SUBSTR(), INSTR(), UPPER(), LOWER(), stb ...
-	* Dátumoknál +, -, és egyébb konverziók
-	* Halmazokhoz pl: (10, 20, 30);
+* Számokhoz aritmetikai kifejezések és függvények
+* Szöveghez SUBSTR(), INSTR(), UPPER(), LOWER(), stb ...
+* Dátumoknál +, -, és egyébb konverziók
+* Halmazokhoz pl: (10, 20, 30);
 Ezen műveletekkel képzet adatokból további logikai értékeket előállíthatunk
-	* relációkkal ...
-	* intervallumba tartozással 	`BETWEEN ... AND ... `
-	* elme-e vizsgálattal 	`IN <halmaz>`
-	* minta összevetéssel 	`LIKE <mint>`
+* relációkkal ...
+* intervallumba tartozással 	`BETWEEN ... AND ... `
+* elme-e vizsgálattal 	`IN <halmaz>`
+* minta összevetéssel 	`LIKE <mint>`
 ```sql
 -- példa: 2000$-nál magasabb áfás árak növekvő sorrendben
 SELECT prodID, startdate, 1.27*stdprice AS pricewithtax
