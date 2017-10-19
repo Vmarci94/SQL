@@ -1,4 +1,6 @@
 # SQL alapok
+**Az SQL nyelv dekleratív (eredmény-orientál) jellegű.**
+**A **"Mit számítsunk ki?"** kérdésre fókuszál**
 
 # Táblák létrehozása, törlése
 
@@ -80,17 +82,21 @@ A <jellemzők> közöttt sorolhatjuk fel a kívánt oszlopokat
 ```sql
 SELECT <jellemzők> FROM <táblanév>; -- sablon
 
-SELECT name, address FROM customer; -- konkrét példa
+SELECT name, address FROM customer; -- konkrét példa (customer táblából name és address oszlop megjelenítése)
 
 SELECT * FROM customer; --ez mindent oszlopot kijelől
 
-SELECT prodID, startdate, 1.27*stdprice FROM price; --használhatunk egyszerűbb aritmetikai kifejezéseket
+SELECT prodID, startdate, 1.27*stdprice FROM price; --használhatunk egyszerűbb aritmetikai kifejezéseket, oszlopfüggvényeket
 
 SELECT prodID, startdate, 1.27*stdprice AS pricewithtax FROM price; --adhatunk "oszlopszinonimát" is az `AS` kulcs szóval amelyre horme 
-
-SELECT DISTINCT name FROM customer; -- össszes különböző név
-
 ```
+
+Az eredménytáblában lehetnek azonos sorok, ami ellent mondd a relációs táblák alapelvének.
+Ha ez zavaró számunka *(pl. hibás eredmény)* akkor ki tudjuk szűrni a következő képpen
+```sql
+SELECT DISTINCT name FROM customer;
+```
+*Igazából ez a művelet feletethető meg a relációs algeba **vetítés** műveletének.*
 
 ## Szelekció
 Itt valójában a `WHERE` kulcs szó után megadott logikai kifejezésel szelektálhatunk az eredménytábla sorai köztt.
@@ -105,6 +111,11 @@ Ezen műveletekkel képzet adatokból további logikai értékeket előállítha
 * elme-e vizsgálattal 	`IN <halmaz>`
 * minta összevetéssel 	`LIKE <mint>`
 ```sql
+--minta
+SELECT 	<jellemzők>
+FROM 	<táblanév>
+WHERE 	<logikai kif>
+
 -- példa: 2000$-nál magasabb áfás árak növekvő sorrendben
 SELECT prodID, startdate, 1.27*stdprice AS pricewithtax
 FROM price
@@ -116,22 +127,48 @@ ORDER BY pricewithtax;
 Az illesztés azaz "természetes illesztés" műveletnél,
 két vagy több tábla soraiból készítünk egy-egy új rekordot,
 akkor, ha a két sor egy-egy mezőjének értéke megegyezik.
+
 ```sql
 SELECT product.descrip, price.* 	-- eredmény táblában megjelenő oszlopok
 FROM product, price					-- két vagy több érintett tábla	
 WHERE product.prodID=price.prodID; 	-- az illesztést megvalósító oszlopok (azok a rekordok jelenek meg, ahol ezek egyenlőek)
 ```
 
+*Észrevehető, hogy ez a relációs algebrában megismert **természetes illesztésnél** álltalánosabb,
+inkább a **theta illesztésnek** feleltethető meg.*
+
 Előfordulhat, hogy nem jelennek meg egyes sorok, mert az adott sorhoz
 a másik táblában nem található illeszthető sor. Ez lehet kellemetlen eredmény.
 Erre való a **külső illesztés**
+
 ```SQL
 SELECT product.descrip, product.stdprice, price.startdate
 FROM product, price
 WHERE product.prodID = price.prodID(+);
 ```
+
 Így ha egy adot sorhoz a másik táblából nem található illeszthető sor, akkor
 egy üres sort fog hozzárendelni.
+
+Illesztésnél lehet ugyan arra a táblára többször is hivatkozni.
+*(pl. logikai kifejezésnél)*
+```sql
+--pl. ha szeretnénk megkapni az azonos nevű termékeket (páronként)
+SELECT a.descrip, a.prodID, b.prodID				  -- Már itt hivatkozhatunk a lokális nevekre
+FROM product a, product b							  -- A táblákat lokális nevekkel látjuk el.
+WHERE a.descrip = b.descrip AND a.prodID < b.prodID; -- Ha azonos a leírás, de az id nem. (páronként)
+```
+
+## Oszlopfüggvények
+* AVG() --> átlag
+* SUM() --> összeg
+* COUNT() --> darabszám
+* MAX() --> legnagyobb érték
+* MIN() --> legkisebb érték
+pldák:
+1994.jan.1-től induló árak átlaga:
+`sql SELECT AVG(stdprice) FROM price WHERE startdate = '01-jan-1994';`
+
 
 
 
