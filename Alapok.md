@@ -169,7 +169,9 @@ WHERE a.descrip = b.descrip AND a.prodID < b.prodID; -- Ha azonos a leírás, de
 * MIN() --> legkisebb érték
 
 pl. 1994.jan.1-től induló árak átlaga:
-`sql SELECT AVG(stdprice) FROM price WHERE startdate = '01-jan-1994';`
+```sql
+SELECT AVG(stdprice) FROM price WHERE startdate = '01-jan-1994';
+```
 
 
 
