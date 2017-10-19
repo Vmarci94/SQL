@@ -1,6 +1,7 @@
 # SQL alapok
-**Az SQL nyelv dekleratív (eredmény-orientál) jellegű.**
-**A **"Mit számítsunk ki?"** kérdésre fókuszál**
+*Az SQL nyelv dekleratív (eredmény-orientál) jellegű.*
+
+*A **"Mit számítsunk ki?"** kérdésre fókuszál*
 
 # Táblák létrehozása, törlése
 
@@ -160,13 +161,14 @@ WHERE a.descrip = b.descrip AND a.prodID < b.prodID; -- Ha azonos a leírás, de
 ```
 
 ## Oszlopfüggvények
+
 * AVG() --> átlag
 * SUM() --> összeg
 * COUNT() --> darabszám
 * MAX() --> legnagyobb érték
 * MIN() --> legkisebb érték
-pldák:
-1994.jan.1-től induló árak átlaga:
+
+pl. 1994.jan.1-től induló árak átlaga:
 `sql SELECT AVG(stdprice) FROM price WHERE startdate = '01-jan-1994';`
 
 
