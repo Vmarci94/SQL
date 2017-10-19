@@ -11,6 +11,7 @@ CREATE TABLE szorakozohely (
     tipus LONG,
     CONSTRAINT CHK_arfekves CHECK ( arfekves IN ('low', 'medium', 'high'))
 );
+
 CREATE TABLE latogato (
     latogato_id NUMBER PRIMARY KEY,
     nev VARCHAR2(100) NOT NULL UNIQUE,
@@ -21,7 +22,9 @@ CREATE TABLE latogato (
     kedvenc_filmcim VARCHAR2(500),
     CONSTRAINT CHK_jovedelem CHECK (jovedelem in (15000, 200000000))
 );
+
 CREATE TABLE latogatas (
+    latogatas_id NUMBER PRIMARY KEY,
     szorakozohely_id NUMBER,
     latogato_id NUMBER,
     latogatasok_szama NUMBER NOT NULL,

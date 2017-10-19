@@ -112,6 +112,26 @@ WHERE 1.27*stdprice > 2000
 ORDER BY pricewithtax;
 ```
 
+## Illesztés (join)
+Az illesztés azaz "természetes illesztés" műveletnél,
+két vagy több tábla soraiból készítünk egy-egy új rekordot,
+akkor, ha a két sor egy-egy mezőjének értéke megegyezik.
+```sql
+SELECT product.descrip, price.* 	-- eredmény táblában megjelenő oszlopok
+FROM product, price					-- két vagy több érintett tábla	
+WHERE product.prodID=price.prodID; 	-- az illesztést megvalósító oszlopok (azok a rekordok jelenek meg, ahol ezek egyenlőek)
+```
+
+Előfordulhat, hogy nem jelennek meg egyes sorok, mert az adott sorhoz
+a másik táblában nem található illeszthető sor. Ez lehet kellemetlen eredmény.
+Erre való a **külső illesztés**
+```SQL
+SELECT product.descrip, product.stdprice, price.startdate
+FROM product, price
+WHERE product.prodID = price.prodID(+);
+```
+Így ha egy adot sorhoz a másik táblából nem található illeszthető sor, akkor
+egy üres sort fog hozzárendelni.
 
 
 

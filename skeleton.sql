@@ -11,61 +11,51 @@ set serveroutput on
 -- disable feedback, eg. anonymous block completed
 set feedback off
 
--- táblaeldobások ide
+DROP TABLE latogatas;
+DROP TABLE szorakozohely;
+DROP TABLE latogato;
 
 prompt <tasks>
 
-prompt <task n="1.1">
+prompt <task n="1">
 prompt <![CDATA[
 
--- 1.1-es feladat megoldása ide
+CREATE TABLE szorakozohely (
+    szorakozohely_id NUMBER PRIMARY KEY,
+    nev VARCHAR2(100) UNIQUE NOT NULL,
+    cim VARCHAR2(100) NOT NULL,
+    telefonszam NUMBER(11),
+    arfekves VARCHAR2(10),
+    tipus LONG,
+    CONSTRAINT CHK_arfekves CHECK ( arfekves IN ('low', 'medium', 'high'))
+);
+
+CREATE TABLE latogato (
+    latogato_id NUMBER PRIMARY KEY,
+    nev VARCHAR2(100) NOT NULL UNIQUE,
+    cim VARCHAR2(100),
+    telefonszam NUMBER(11),
+    jovedelem NUMBER(9), 
+    erdeklodesi_kor VARCHAR2(500),
+    kedvenc_filmcim VARCHAR2(500),
+    CONSTRAINT CHK_jovedelem CHECK (jovedelem in (15000, 200000000))
+);
+
+CREATE TABLE latogatas (
+    latogatas_id NUMBER PRIMARY KEY,
+    szorakozohely_id NUMBER,
+    latogato_id NUMBER,
+    latogatasok_szama NUMBER NOT NULL,
+    utolso_latogatas_ideje DATE NOT NULL,
+    elso_latogatas_ideje DATE NOT NULL,
+    kedveli NUMBER(1) DEFAULT 0,
+    atlagos_fogyasztas_ara NUMBER(9) NOT NULL,
+    CONSTRAINT CHK_kedveli CHECK (kedveli in (0, 1)),
+    CONSTRAINT CHK_latogatasok_szama CHECK (latogatasok_szama in (1, 7)),
+    CONSTRAINT CHK_konzisztens_datum CHECK (elso_latogatas_ideje <= utolso_latogatas_ideje),
+    CONSTRAINT FK_szorakozohely FOREIGN KEY (szorakozohely_id) REFERENCES szorakozohely(szorakozohely_id),
+    CONSTRAINT FK_latogato FOREIGN KEY (latogato_id) REFERENCES latogato(latogato_id)
+);
 
 prompt ]]>
 prompt </task>
-
-prompt <task n="1.2">
-prompt <![CDATA[
-
--- 1.2-es feladat megoldása ide
-
-prompt ]]>
-prompt </task>
-
--- így tovább, a feladatmegoldásokat közrefogó két-két nyitó és záró prompt sor ismétlődik értelemszerűen, a task tag n attribútumának értéke az adott feladat száma.
-
--- az adatmanipuláció feladatai előtt szükséges kiadni
-set feedback on
-
-prompt <task n="4.1">
-prompt <![CDATA[  
-
--- 4.1-es feladat megoldása ide
-
-prompt ]]>
-prompt </task>
-prompt <task n="4.2">
-prompt <![CDATA[
-
--- 4.2-es feladat megoldása ide
-
-prompt ]]>
-prompt </task>
-prompt <task n="4.3">
-prompt <![CDATA[
-
--- 4.3-as feladat megoldása ide
-
-prompt ]]>
-prompt </task>
-
--- az adatmanipuláció feladatai után szükséges kiadni
-set feedback off
-
-prompt <task n="5.1">
-prompt <![CDATA[ 
-
--- 5.1-es feladat megoldása ide
-
-prompt ]]>
-prompt </task>
-prompt </tasks>
